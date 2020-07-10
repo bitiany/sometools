@@ -14,7 +14,7 @@ fi
 i=0
 param=$1
 cat $conf_path |grep -v grep| grep $param | awk -F '=' '{print $2}' | while read -r line;
-do 
+do
     let 'i++'
     echo $i "$(echo $line | awk '{print $1,$3}')"
 done
@@ -22,14 +22,15 @@ read -p "请选择:" ip_no
 i=0
 set timeout 30
 cat $conf_path |grep -v grep| grep $param | awk -F '=' '{print $2}' | while read -r line;
-do 
+do
    i=`expr $i + 1`
    if [ $i == $ip_no ]; then
         array=(${line// / })
-        host="root@${array[0]}"
+        user="${array[3]}"
+        host="${user}@${array[0]}"
         port="${array[1]}"
-        password="${array[3]}"
-        cat << EOF >/tmp/gojump 
+        password="${array[4]}"
+        cat << EOF >/tmp/gojump
             spawn ssh -p $port $host
             expect {
                 "(yes/no)?"
