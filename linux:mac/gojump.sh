@@ -33,7 +33,7 @@ do
         cat << EOF >/tmp/gojump
             spawn ssh -p $port $host
             expect {
-                "(yes/no)?"
+                "(yes/no/\[fingerprint\])?"
                 {send "yes\n"; exp_continue }
                 "password:"
                 {send "$password\n" }
